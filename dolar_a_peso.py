@@ -8,7 +8,7 @@ import logging
 import locale
 
 # locale propio de dyno de heroku
-locale.setlocale(locale.LC_ALL, 'es_CL.ISO8859-1')
+locale.setlocale(locale.LC_ALL, 'es_CL')
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
