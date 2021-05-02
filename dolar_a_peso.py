@@ -25,7 +25,7 @@ def convert(update, context):
     
     convertion_value = r.get("quotes").get("USDCLP")
 
-    result = str(int(float(dolarInput) * float(convertion_value)))
+    result = int(float(dolarInput) * float(convertion_value))
 
     length = len(result)
 
