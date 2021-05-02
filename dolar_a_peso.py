@@ -40,7 +40,7 @@ def error(update, context):
 def main():
     
     token = os.getenv('token')
-    port = os.getenv('PORT', 80)
+    port = int(os.getenv('PORT', 80))
 
     updater = Updater(token=token, use_context=True)
 
