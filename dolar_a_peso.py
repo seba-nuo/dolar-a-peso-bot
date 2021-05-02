@@ -27,7 +27,7 @@ def convert(update, context):
 
     result = int(float(dolarInput) * float(convertion_value))
 
-    length = len(result)
+    # length = len(result)
 
     # only work with in range 1.000 : 999.999
     formated_result = f'{result:n}'
