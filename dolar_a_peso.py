@@ -41,7 +41,7 @@ def error(update, context):
 def main():
     
     token = os.getenv('token')
-    # port = int(os.getenv('port', 5000)) # test
+    port = int(os.getenv('PORT', 5000)) # test
 
     updater = Updater(token=token, use_context=True)
 
@@ -58,7 +58,7 @@ def main():
     
     # updater.start_polling() # testing
     updater.start_webhook(listen="0.0.0.0", 
-                            port=5000, 
+                            port=port, 
                             url_path=token, 
                             webhook_url='https://dolar-a-peso.herokuapp.com/' + token)
     # updater.bot.setWebhook('https://dolar-a-peso.herokuapp.com/' + token)
