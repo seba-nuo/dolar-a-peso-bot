@@ -7,7 +7,10 @@ import os
 import logging
 import locale
 
-locale.setlocale(locale.LC_ALL, 'es_CL')
+# locale.setlocale(locale.LC_ALL, 'es_CL')
+
+for lang in locale.locale_alias.values():
+    	print(lang)
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
