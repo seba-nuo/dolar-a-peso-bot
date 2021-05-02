@@ -7,11 +7,6 @@ import os
 import logging
 import locale
 
-# locale.setlocale(locale.LC_ALL, 'es_CL')
-
-for lang in locale.locale_alias.values():
-    	print(lang)
-
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 buttons = ReplyKeyboardMarkup(keyboard=[["52.48", "47.23"], ["104.96", "99.13"]])
@@ -30,7 +25,6 @@ def convert(update, context):
 
     result = int(float(dolarInput) * float(convertion_value))
 
-    print(locale.getlocale(locale.LC_ALL))
     formated_result = locale.currency(result)
 
     context.bot.send_message(chat_id=update.effective_chat.id, text=formated_result)
