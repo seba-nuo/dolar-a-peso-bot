@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 buttons = ReplyKeyboardMarkup(keyboard=[["52.48", "47.23"], ["104.96", "99.13"]])
 
 def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Hola! envía un valor en Pesos Chilenos y lo Convertiré en Dólares", reply_markup=buttons)
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Hola! envía un valor en Dólares y lo convertiré en Pesos Chilenos", reply_markup=buttons)
 
 def convert(update, context):
 
