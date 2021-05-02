@@ -7,6 +7,8 @@ import os
 import logging
 import locale
 
+locale.setlocale(locale.LC_ALL, 'es_CL')
+
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 buttons = ReplyKeyboardMarkup(keyboard=[["52.48", "47.23"], ["104.96", "99.13"]])
