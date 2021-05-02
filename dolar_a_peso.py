@@ -8,13 +8,15 @@ from dotenv import load_dotenv
 import locale
 import logging
 
-locale.setlocale(locale.LC_ALL, 'es_CL')
+# locale.setlocale(locale.LC_ALL, 'es_CL')
 load_dotenv()
+for lang in locale.locale_alias.values():
+    print(lang)
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 token = os.getenv('token')
-port = os.getenv('PORT', 5000)
+port = os.getenv('PORT', 80)
 
 updater = Updater(token=token, use_context=True)
 
@@ -45,9 +47,8 @@ convert_handler = MessageHandler(Filters.text & (~Filters.command), convert)
 dispatcher.add_handler(start_handler)
 dispatcher.add_handler(convert_handler)
 
-dispatcher.add_error_handler(error)
-
-updater.start_webhook(listen="0.0.0.0", port=port, url_path=token)
-updater.bot.setWebhook('https://dolar-a-peso.herokuapp.com/' + token)
+updater.start_polling()
+# updater.start_webhook(listen="0.0.0.0", port=port, url_path=token)
+# updater.bot.setWebhook('https://dolar-a-peso.herokuapp.com/' + token)
 
 updater.idle()
