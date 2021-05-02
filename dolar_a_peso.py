@@ -4,16 +4,13 @@ from telegram.ext import MessageHandler, Filters
 from telegram import ReplyKeyboardMarkup
 import requests
 import os
-from dotenv import load_dotenv
 import logging
-
-load_dotenv()
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!", reply_markup=buttons)
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Hola! envía un valor en Pesos Chilenos y lo Convertiré en Dólares", reply_markup=buttons)
 
 def convert(update, context):
 
@@ -41,7 +38,7 @@ def error(update, context):
 def main():
     
     token = os.getenv('token')
-    port = int(os.getenv('PORT', 5000)) # test
+    port = int(os.getenv('PORT', 5000))
 
     updater = Updater(token=token, use_context=True)
 
@@ -54,14 +51,13 @@ def main():
 
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(convert_handler)
+
     dispatcher.add_error_handler(error)
     
-    # updater.start_polling() # testing
     updater.start_webhook(listen="0.0.0.0", 
                             port=port, 
                             url_path=token, 
                             webhook_url='https://dolar-a-peso.herokuapp.com/' + token)
-    # updater.bot.setWebhook('https://dolar-a-peso.herokuapp.com/' + token)
 
     updater.idle()
 
