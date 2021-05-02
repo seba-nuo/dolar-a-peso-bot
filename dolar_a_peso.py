@@ -27,7 +27,7 @@ def convert(update, context):
 
     result = int(float(dolarInput) * float(convertion_value))
 
-    formated_result = locale.format('%', result, grouping=True, monetary=True)
+    formated_result = locale.s('%d', result, grouping=True, monetary=True)
 
     context.bot.send_message(chat_id=update.effective_chat.id, text=formated_result)
 
