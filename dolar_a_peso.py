@@ -5,9 +5,15 @@ from telegram import ReplyKeyboardMarkup
 import requests
 import os
 import logging
+import locale
+
+# locale.setlocale(locale.LC_ALL, 'de_DE.utf-8')
+for lang in locale.locale_alias.values():
+    print(lang)
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
+buttons = ReplyKeyboardMarkup(keyboard=[["52.48", "47.23"], ["104.96", "99.13"]])
 
 def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Hola! envía un valor en Pesos Chilenos y lo Convertiré en Dólares", reply_markup=buttons)
@@ -27,6 +33,7 @@ def convert(update, context):
 
     # only work with in range 1.000 : 999.999
     formated_result = f'${result[:length - 3]}.{result[-3:]}'
+    # formated_result = 
 
     context.bot.send_message(chat_id=update.effective_chat.id, text=formated_result)
 
@@ -43,8 +50,6 @@ def main():
     updater = Updater(token=token, use_context=True)
 
     dispatcher = updater.dispatcher
-
-    buttons = ReplyKeyboardMarkup(keyboard=[["52.48", "47.23"], ["104.96", "99.13"]])
 
     start_handler = CommandHandler('start', start)
     convert_handler = MessageHandler(Filters.text & (~Filters.command), convert)
