@@ -5,24 +5,12 @@ from telegram import ReplyKeyboardMarkup
 import requests
 import os
 from dotenv import load_dotenv
-import locale
 import logging
 
-# locale.setlocale(locale.LC_ALL, 'es_CL')
 load_dotenv()
-for lang in locale.locale_alias.values():
-    print(lang)
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-
-token = os.getenv('token')
-port = os.getenv('PORT', 80)
-
-updater = Updater(token=token, use_context=True)
-
-dispatcher = updater.dispatcher
-
-buttons = ReplyKeyboardMarkup(keyboard=[["52.48", "47.23"], ["104.96", "99.13"]])
+logger = logging.getLogger(__name__)
 
 def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!", reply_markup=buttons)
@@ -36,19 +24,42 @@ def convert(update, context):
     
     convertion_value = r.get("quotes").get("USDCLP")
 
-    result = int(float(dolarInput) * float(convertion_value))
+    result = str(int(float(dolarInput) * float(convertion_value)))
 
-    context.bot.send_message(chat_id=update.effective_chat.id, text=f'${result:n}')
+    length = len(result)
 
+    # only work with in range 1.000 : 999.999
+    formated_result = f'${result[:length - 3]}.{result[-3:]}'
 
-start_handler = CommandHandler('start', start)
-convert_handler = MessageHandler(Filters.text & (~Filters.command), convert)
+    context.bot.send_message(chat_id=update.effective_chat.id, text=formated_result)
 
-dispatcher.add_handler(start_handler)
-dispatcher.add_handler(convert_handler)
+def error(update, context):
+    """Log Errors caused by Updates."""
+    logger.warning('Update "%s" caused error "%s"', update, context.error)
 
-updater.start_polling()
-# updater.start_webhook(listen="0.0.0.0", port=port, url_path=token)
-# updater.bot.setWebhook('https://dolar-a-peso.herokuapp.com/' + token)
+def main():
+    
+    token = os.getenv('token')
+    port = os.getenv('PORT', 80)
 
-updater.idle()
+    updater = Updater(token=token, use_context=True)
+
+    dispatcher = updater.dispatcher
+
+    buttons = ReplyKeyboardMarkup(keyboard=[["52.48", "47.23"], ["104.96", "99.13"]])
+
+    start_handler = CommandHandler('start', start)
+    convert_handler = MessageHandler(Filters.text & (~Filters.command), convert)
+
+    dispatcher.add_handler(start_handler)
+    dispatcher.add_handler(convert_handler)
+    dispatcher.add_error_handler(error)
+    
+    # updater.start_polling() # testing
+    updater.start_webhook(listen="0.0.0.0", port=port, url_path=token)
+    updater.bot.setWebhook('https://dolar-a-peso.herokuapp.com/' + token)
+
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
