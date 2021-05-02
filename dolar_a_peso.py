@@ -7,6 +7,7 @@ import os
 import logging
 import locale
 
+# fue necesario instalar el locale en heroku
 locale.setlocale(locale.LC_ALL, 'es_CL')
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -29,7 +30,7 @@ def convert(update, context):
 
     formated_result = locale.format_string('%d', result, grouping=True, monetary=True)
 
-    context.bot.send_message(chat_id=update.effective_chat.id, text=formated_result)
+    context.bot.send_message(chat_id=update.effective_chat.id, text=f'${formated_result}')
 
 def error(update, context):
     """Log Errors caused by Updates."""
